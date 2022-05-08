@@ -12,11 +12,11 @@
 
 ## Tutoriel de découverte de JDBC
 
-L’objectif de ce document est de vous présenter une méthode d’accès à un SGBD Relationnel à travers le langage de programmation `Java`. Pour cela, nous allons dans un premier temps présenter l’API JDBC ([Java DataBase Connectivity](https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/package-summary.html)). C’est un ensemble de classes permettant d’exécuter des ordres SQL de manière générique. En effet, l’API JDBC est construit autour de pilotes (Driver) interchangeables. Un pilote est un module logiciel dédié à une source de données tabulaire (un SGBD-R dans la plupart des cas). Pour utiliser comme source de données MySQL au lieu d’Oracle, il suffit de de remplacer le pilote Oracle par celui de MySQL. Ce changement de pilote peut se faire directement par paramétrage sans avoir besoin changer une seule ligne de code ni le recompiler (Il faut tout de même pondérer ces avantages car dans la pratique il existe de très nombreuses incompatibilités liées à des implémentations du langage SQL non respectueuses des standards).
+L’objectif de ce document est de vous présenter une méthode d’accès à un SGBD Relationnel à travers le langage de programmation `Java`. Pour cela, nous allons dans un premier temps présenter l’API JDBC ([Java DataBase Connectivity](https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/package-summary.html)). C’est un ensemble de classes permettant d’exécuter des ordres SQL de manière générique. En effet, l’API JDBC est construit autour de pilotes (Driver) interchangeables. Un pilote est un module logiciel dédié à une source de données tabulaire (un SGBD-R dans la plupart des cas). Pour utiliser comme source de données MySQL au lieu d’Oracle, il suffit de remplacer le pilote Oracle par celui de MySQL. Ce changement de pilote peut se faire directement par paramétrage sans avoir besoin changer une seule ligne de code ni le recompiler (Il faut tout de même pondérer ces avantages, car dans la pratique, il existe de très nombreuses incompatibilités liées à des implémentations du langage SQL non respectueuses des standards).
 
 ### Mise en place de l’environnement de travail
 
-L’API JDBC fait partie de Java mais le pilote propre au SGBD-R n’y est pas. Avant de pouvoir se connecter à une base de données, il faudra donc ajouter à votre projet le fichier _jar_ contenant le pilote adapté. Si vous utilisez un projet Maven, l'ajout se fera par l'insertion d'une nouvelle dépendance dans le fichier `pom.xml` de votre projet.
+L’API JDBC fait partie de Java, mais le pilote propre au SGBD-R n’y est pas. Avant de pouvoir se connecter à une base de données, il faudra donc ajouter à votre projet le fichier _jar_ contenant le pilote adapté. Si vous utilisez un projet Maven, l'ajout se fera par l'insertion d'une nouvelle dépendance dans le fichier `pom.xml` de votre projet.
 
 Par exemple pour pouvoir accéder à une base de donnée MySQL, vous devrez rajouter les lignes suivantes entre dans le bloc `<dependencies> </dependencies>` :
 
@@ -44,9 +44,9 @@ L’objectif général de cette partie est de mettre en évidence le schéma de 
 
 Étant donné que chacune de ses étapes est susceptible de rencontrer des erreurs, il faudra donc rajouter une étape supplémentaire de gestion des exceptions.
 
-Pour illustrer ce propos, nous utiliserons la base de données « Gestion Pédagogique » que vous avez utilisée lors de vos TP de PL/SQL en début d’année. Dans le présent dépôt, vous pourrez trouver un script de génération des tables adapté à MySQL ou Oracle.
+Pour illustrer ce propos, nous utiliserons la base de données « Gestion Pédagogique » que vous avez utilisée lors de vos TP de PL/SQL en début d’année. Dans le présent dépôt, vous pourrez trouver un script de génération des tables adapté à MySQL ou Oracle.
 
-En créant votre environement de dévelopement avec gitpod, vous aurez accès à un serveur MySQL déjà configuré. Pour pouvoir travailler avec votre propre base de données, vous pouvez essayer de créer une instance d'une base de donnée PostgreSQL chez [Elephant SQL](https://www.elephantsql.com/plans.html). Une fois votre instance créée, vous pourrez récupérer votre URL de connexion dans votre console d'administration.
+En créant votre environnement de développement avec Gitpod, vous aurez accès à un serveur MySQL déjà configuré. Pour pouvoir travailler avec votre propre base de données, vous pouvez essayer de créer une instance d'une base de donnée Postgres chez [Elephant SQL](https://www.elephantsql.com/plans.html). Une fois votre instance créée, vous pourrez récupérer votre URL de connexion dans votre console d'administration.
 
 Le programme Java ci-dessous va être utilisé pour illustrer le fonctionnement de chacune de ces étapes. L’objectif de ce programme est de récupérer la liste des numéros, noms et prénoms de tous les étudiants habitant à Aix-en-Provence pour l’afficher à l’écran.
 
@@ -98,7 +98,7 @@ public class testJDBC {
 }
 ```
 
-Les différentes étapes détaillées ci-dessous mentionnent de nombreuses classes contenues dans les paquetages `java.sql.*` et `javax.sql.*`. Pour connaître les détails sur chacune de ces classes vous êtes invités à lire la Javadoc que vous trouverez à l’adresse suivante : <https://docs.oracle.com/en/java/javase/17/docs/api/index.html>.
+Les différentes étapes détaillées ci-dessous mentionnent de nombreuses classes contenues dans les paquetages `java.sql.*` et `javax.sql.*`. Pour connaître les détails sur chacune de ces classes, vous êtes invités à lire la Javadoc que vous trouverez à l’adresse suivante : <https://docs.oracle.com/en/java/javase/17/docs/api/index.html>.
 
 #### Connexion à la base de données
 
@@ -110,7 +110,7 @@ Une fois la connexion établie, il faut créer un objet matérialisant l’ordre
 
 1. Les `Statement` : Ils permettent d’exécuter n’importe quelle requête sans paramètre. La requête est interprétée par le SGBD au moment de son exécution. Ce type d’ordre est à utiliser principalement pour les requêtes à usage unique.
 
-2. Les `PreparedStatement` : Ils permettent de précompiler un ordre avant son exécution. Ils sont particulièrement importants pour les ordres destinés à être exécutés plusieurs fois comme par exemple les requêtes paramétrées.
+2. Les `PreparedStatement` : Ils permettent de pré-compiler un ordre avant son exécution. Ils sont particulièrement importants pour les ordres destinés à être exécutés plusieurs fois comme les requêtes paramétrées.
 
 3. Les `CallableStatement` : Ils sont destinés à l’appel des procédures stockées.
 
@@ -122,7 +122,7 @@ Afin d’exécuter une requête, il suffit de faire appel à l’une des méthod
 
 La manipulation du résultat d’une requête se fait à travers un objet du type `ResultSet`. Le résultat se manipule, comme avec les curseurs de PL/SQL, ligne après ligne. Ainsi, l’objet `ResultSet` maintient un pointeur vers la ligne courante. La manipulation de ce pointeur se fait principalement avec la méthode `next()` qui permet d’avancer le pointeur sur la ligne suivante. Lors de la création du `ResultSet` ce pointeur est positionné sur une ligne spéciale appelée le _gap_. Cette ligne est située une ligne avant la première ligne du résultat. De ce fait, la première ligne n’est pointée qu’après le premier appel à `next()`. Lorsque le pointeur est positionné après la dernière ligne, `next()` retourne la valeur `false`. Pour parcourir linéairement l’intégralité d’un `ResultSet`, on utilise donc une boucle `while` avec `next()` comme prédicat de continuation. Le corps de la boucle est dédié à la manipulation de la ligne (tuple) couramment pointée.
 
-Afin de récupérer les valeurs des attributs du tuple courant, on utilise l’une des différentes méthodes `getXXXX()` (où `XXXX` désigne le type de l’attribut que l’on souhaite récupérer). Par exemple, pour récupérer un entier on utilise `getInt()` et pour récupérer un booléen on utilise `getBoolean()`. Le paramètre passé à cet accesseur permet de choisir l’attribut à récupérer. Il existe deux façons pour désigner un attribut. La première (celle de l’exemple) consiste à utiliser une `string` contenant le nom de la colonne souhaitée. La seconde quant à elle, passe en paramètre un entier (`int`) contenant la position (dans le `Select`) de l’attribut à récupérer. Attention, contrairement à l’habitude en programmation, les attributs sont numérotés à partir de 1 (et non de 0). Par exemple, si l’on souhaite récupérer la valeur de l’attribut `NUM_ET` (le premier dans notre `Select`), il faudra faire : `rset.getInt(1)`.
+Afin de récupérer les valeurs des attributs du tuple courant, on utilise l’une des différentes méthodes `getXXXX()` (où `XXXX` désigne le type de l’attribut que l’on souhaite récupérer). Par exemple, pour récupérer un entier, on utilise `getInt()` et pour récupérer un booléen on utilise `getBoolean()`. Le paramètre passé à cet accesseur permet de choisir l’attribut à récupérer. Il existe deux façons pour désigner un attribut. La première (celle de l’exemple) consiste à utiliser une `string` contenant le nom de la colonne souhaitée. La seconde quant à elle, passe en paramètre un entier (`int`) contenant la position (dans le `Select`) de l’attribut à récupérer. Attention, contrairement à l’habitude en programmation, les attributs sont numérotés à partir de 1 (et non de 0). Par exemple, si l’on souhaite récupérer la valeur de l’attribut `NUM_ET` (le premier dans notre `Select`), il faudra faire : `rset.getInt(1)`.
 
 #### Libération des ressources et fermeture de la connexion
 
@@ -136,7 +136,7 @@ La grande majorité des classes de JDBC sont susceptibles de lever des exception
 
 Cloner le dépôt `IUTInfoAix-R202/TutoJdbc` et l'importer dans votre IDE (je vous recommande d'utiliser Gitpod pour vous simplifier la configuration de votre projet). Si vous utilisez un server de base de données externe, le fichier java donné en exemple devra être adapté avec les informations vers votre base de données (nom d'hôte, login, mot de passe).
 
-N'oubliez pas d'éxécuter le script de création de table adapté au SGBD que vous utilisez (contenu dans les fichier `gestion_peda_XXXXXX.sql`).
+N'oubliez pas d'exécuter le script de création de table adapté au SGBD que vous utilisez (contenu dans les fichier `gestion_peda_XXXXXX.sql`).
 
 Lancer la classe `TestJDBC` pour vérifier que tout fonctionne.
 
@@ -154,16 +154,16 @@ Pour ouvrir ce tutoriel avec Gitpod, vous pouvez simplement cliquer sur le bouto
 
 Pour disposer de Gitpod sur tous vos projets hébergés sur Github, suivez les étapes suivantes :
 
-- Créez un compte Gitpod en vous rendant sur la page [Get started](https://www.gitpod.io/#get-started). Identifiez-vous avec votre compte github en cliquant sur le bouton "Continue with Github". Si vous avez déjà obtenu votre pack [Github Education](https://education.github.com/pack), vous pouvez bénéficier de l'offre 100h/mois. N'oubliez pas d'en faire la demande dans les [réglages de votre compte Gitpod](https://gitpod.io/plans).
+- Créez un compte Gitpod en vous rendant sur la page [Get started](https://www.gitpod.io/#get-started). Identifiez-vous avec votre compte github en cliquant sur le bouton "Continue with Github". Si vous avez déjà obtenu votre pack [Github Education](https://education.github.com/pack), vous pouvez bénéficier de l'offre 100 h/mois. N'oubliez pas d'en faire la demande dans les [réglages de votre compte Gitpod](https://gitpod.io/plans).
 
 - Installez l'[application Gitpod](https://github.com/apps/gitpod-io/installations/new). L'application GitHub de Gitpod est similaire à un serveur CI et préparera en permanence des pré-constructions pour toutes vos branches et demandes d'extraction - vous n'avez donc pas à attendre que Maven ou NPM télécharge Internet lorsque vous souhaitez commencer à travailler.
 
-- Démarrez votre premier espace de travail avec une préconstruction en préfixant l'URL du référentiel par [https://gitpod.io#prebuild/](https://gitpod.io#prebuild/). Gitpod affiche l'état d'avancement de la pré-construction en exécutant les commandes `init` du fichier `.gitpod.yml` avant de démarrer un espace de travail. Plus tard, lorsque vous créez un nouvel espace de travail sur une branche, ou une Pull Request, l'espace de travail se charge beaucoup plus rapidement, car toutes les dépendances sont déjà téléchargées et le code est compilé.
+- Démarrez votre premier espace de travail avec une pré-construction en préfixant l'URL du référentiel par [https://gitpod.io#prebuild/](https://gitpod.io#prebuild/). Gitpod affiche l'état d'avancement de la pré-construction en exécutant les commandes `init` du fichier `.gitpod.yml` avant de lancer un espace de travail. Plus tard, lorsque vous créez un nouvel espace de travail sur une branche, ou une Pull-Request, l'espace de travail se charge beaucoup plus rapidement, car toutes les dépendances sont déjà téléchargées et le code est compilé.
 
 - Installez de l'extension navigateur Gitpod sur tous les navigateurs basés sur [Chromium](https://chrome.google.com/webstore/detail/gitpod-always-ready-to-co/dodmmooeoklaejobgleioelladacbeki) (tels que Microsoft Edge, Brave, Chrome, ...) ou sur [Firefox](https://addons.mozilla.org/fr/firefox/addon/gitpod/). L'extension ajoute simplement un bouton Gitpod sur chaque projet et branche sur GitHub, et Bitbucket qui préfixe l'URL avec [http://gitpod.io/#](http://gitpod.io/#) afin que vous puissiez facilement ouvrir un nouvel espace de travail à partir de n'importe quel contexte Git.
 
-- Personnalisez le thème par défaut en ouvrant le panneau de commande (avec le raccourci clavier `Ctrl+Shift+P`) et en sélectionnant `Preferences: Color Theme`. Si vous préférez par exemple les couleur sombre pour reposer vos yeux, le thème *gitpod dark* devrait vous convenir. Vous pouvez rajouter de nouveaux thème directement en recherchant dans les extensions (avec le raccourci clavier `Ctrl+Shift+X`).
+- Personnalisez le thème par défaut en ouvrant le panneau de commande (avec le raccourci clavier `Ctrl+Shift+P`) et en sélectionnant `Preferences: Color Theme`. Si vous préférez par exemple les couleurs sombres pour reposer vos yeux, le thème *Gitpod dark* devrait vous convenir. Vous pouvez rajouter de nouveaux thèmes directement en recherchant dans les extensions (avec le raccourci clavier `Ctrl+Shift+X`).
 
-Vous pouvez maintenant commencer à traiter les environnements de développement comme des ressources automatisées que vous lancez lorsque vous en avez besoin et fermez (et oubliez) lorsque vous avez terminé votre tâche. Les environnements de développement deviennent totalement éphémères. Attention avec votre offre Github éducation vous ne disposez que de 100h mensuels, donc il faut penser à fermer vos espaces de travail quand vous avez terminé de vous en servir (dans tous les cas ils seront fermés automatiquement après 30 minutes d'inactivité).
+Vous pouvez maintenant commencer à traiter les environnements de développement comme des ressources automatisées que vous lancez lorsque vous en avez besoin et fermez (et oubliez) lorsque vous avez terminé votre tâche. Les environnements de développement deviennent totalement éphémères. Attention avec votre offre Github éducation, vous ne disposez que de 100 h mensuels, donc il faut penser à fermer vos espaces de travail quand vous avez terminé de vous en servir (dans tous les cas, ils seront fermés automatiquement après 30 minutes d'inactivité).
 
-Vous pouvez commencer à basculer entre les espaces de travail ou ouvrir plusieurs espaces de travail sur le même contexte. Par exemple, vous pouvez en ouvrir quatre  (un pour une fonctionnalité en cours de développement, un pour réviser une PR, un pour une issue et un pour une autre PR).
+Vous pouvez commencer à basculer entre les espaces de travail ou ouvrir plusieurs espaces de travail sur le même contexte. Par exemple, vous pouvez en ouvrir quatre (un pour une fonctionnalité en cours de développement, un pour réviser une PR, un pour une issue et un pour une autre PR).
