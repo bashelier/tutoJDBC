@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 
 public class TestJDBC {
 	// Chaine de connexion
-	static final String CONNECT_URL = "jdbc:mysql://localhost:3306/GestionPedaBD";
+	static final String CONNECT_URL = "jdbc:postgresql://localhost/GestionPedaBD";
 	static final String LOGIN = "monUser";
 	static final String PASSWORD = "monPassword";
 	// La requete de test

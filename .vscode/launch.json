@@ -9,7 +9,7 @@
       "stopOnEntry": false,
       "mainClass": "fr.univ_amu.iut.TestJDBC",
       "args": "",
-      "projectName": "M3106_TutoJDBC"
+      "projectName": "TutoJDBC"
     }
   ]
 }

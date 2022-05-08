@@ -12,7 +12,7 @@
 
 ## Tutoriel de découverte de JDBC
 
-L’objectif de ce document est de vous présenter une méthode d’accès à un SGBD Relationnel à travers le langage de programmation `Java`. Pour cela, nous allons dans un premier temps présenter l’API JDBC ([Java DataBase Connectivity](https://docs.oracle.com/en/java/javase/11/docs/api/java.sql/java/sql/package-summary.html)). C’est un ensemble de classes permettant d’exécuter des ordres SQL de manière générique. En effet, l’API JDBC est construit autour de pilotes (Driver) interchangeables. Un pilote est un module logiciel dédié à une source de données tabulaire (un SGBD-R dans la plupart des cas). Pour utiliser comme source de données MySQL au lieu d’Oracle, il suffit de de remplacer le pilote Oracle par celui de MySQL. Ce changement de pilote peut se faire directement par paramétrage sans avoir besoin changer une seule ligne de code ni le recompiler (Il faut tout de même pondérer ces avantages car dans la pratique il existe de très nombreuses incompatibilités liées à des implémentations du langage SQL non respectueuses des standards).
+L’objectif de ce document est de vous présenter une méthode d’accès à un SGBD Relationnel à travers le langage de programmation `Java`. Pour cela, nous allons dans un premier temps présenter l’API JDBC ([Java DataBase Connectivity](https://docs.oracle.com/en/java/javase/17/docs/api/java.sql/java/sql/package-summary.html)). C’est un ensemble de classes permettant d’exécuter des ordres SQL de manière générique. En effet, l’API JDBC est construit autour de pilotes (Driver) interchangeables. Un pilote est un module logiciel dédié à une source de données tabulaire (un SGBD-R dans la plupart des cas). Pour utiliser comme source de données MySQL au lieu d’Oracle, il suffit de de remplacer le pilote Oracle par celui de MySQL. Ce changement de pilote peut se faire directement par paramétrage sans avoir besoin changer une seule ligne de code ni le recompiler (Il faut tout de même pondérer ces avantages car dans la pratique il existe de très nombreuses incompatibilités liées à des implémentations du langage SQL non respectueuses des standards).
 
 ### Mise en place de l’environnement de travail
 
@@ -24,7 +24,7 @@ Par exemple pour pouvoir accéder à une base de donnée MySQL, vous devrez rajo
 <dependency>
    <groupId>mysql</groupId>
    <artifactId>mysql-connector-java</artifactId>
-   <version>8.0.27</version>
+   <version>8.0.29</version>
 </dependency>
 ```
 
@@ -46,7 +46,7 @@ L’objectif général de cette partie est de mettre en évidence le schéma de 
 
 Pour illustrer ce propos, nous utiliserons la base de données « Gestion Pédagogique » que vous avez utilisée lors de vos TP de PL/SQL en début d’année. Dans le présent dépôt, vous pourrez trouver un script de génération des tables adapté à MySQL ou Oracle.
 
-En créant votre environement de dévelopement avec gitpod, vous aurez accès à un serveur MySQL déjà configuré. Pour pouvoir travailler avec votre propre base de données, vous pouvez essayer de créer une base de donnée MySQL chez [Always Data](https://www.alwaysdata.com/fr/). Une fois votre base créée, il faudra créer un utilisateur avec les droit de modification et remplir votre base à partir de l'interface PhpMyadmin.
+En créant votre environement de dévelopement avec gitpod, vous aurez accès à un serveur MySQL déjà configuré. Pour pouvoir travailler avec votre propre base de données, vous pouvez essayer de créer une instance d'une base de donnée PostgreSQL chez [Elephant SQL](https://www.elephantsql.com/plans.html). Une fois votre instance créée, vous pourrez récupérer votre URL de connexion dans votre console d'administration.
 
 Le programme Java ci-dessous va être utilisé pour illustrer le fonctionnement de chacune de ces étapes. L’objectif de ce programme est de récupérer la liste des numéros, noms et prénoms de tous les étudiants habitant à Aix-en-Provence pour l’afficher à l’écran.
 
@@ -98,7 +98,7 @@ public class testJDBC {
 }
 ```
 
-Les différentes étapes détaillées ci-dessous mentionnent de nombreuses classes contenues dans les paquetages `java.sql.*` et `javax.sql.*`. Pour connaître les détails sur chacune de ces classes vous êtes invités à lire la Javadoc que vous trouverez à l’adresse suivante : <https://docs.oracle.com/en/java/javase/11/docs/api/index.html>.
+Les différentes étapes détaillées ci-dessous mentionnent de nombreuses classes contenues dans les paquetages `java.sql.*` et `javax.sql.*`. Pour connaître les détails sur chacune de ces classes vous êtes invités à lire la Javadoc que vous trouverez à l’adresse suivante : <https://docs.oracle.com/en/java/javase/17/docs/api/index.html>.
 
 #### Connexion à la base de données
 
@@ -134,8 +134,11 @@ La grande majorité des classes de JDBC sont susceptibles de lever des exception
 
 ## Travail à faire
 
-Cloner le dépôt `IUTInfoAix-M3106/TutoJdbc` et l'importer dans votre IDE (je vous recommande d'utiliser Gitpod pour vous simplifier la configuration de votre projet). Si vous utilisez un server de base de données externe, le fichier java donné en exemple devra être adapté avec les informations vers votre base de données (nom d'hôte, login, mot de passe).
-Lancer la classe `TestJDBC` pour vérifier que tout fonctionne. N’oubliez pas de configurer votre base de données pour qu’elle contienne des données accessible à un utilisateur lambda.
+Cloner le dépôt `IUTInfoAix-R202/TutoJdbc` et l'importer dans votre IDE (je vous recommande d'utiliser Gitpod pour vous simplifier la configuration de votre projet). Si vous utilisez un server de base de données externe, le fichier java donné en exemple devra être adapté avec les informations vers votre base de données (nom d'hôte, login, mot de passe).
+
+N'oubliez pas d'éxécuter le script de création de table adapté au SGBD que vous utilisez (contenu dans les fichier `gestion_peda_XXXXXX.sql`).
+
+Lancer la classe `TestJDBC` pour vérifier que tout fonctionne.
 
 ## Ouvrir votre projet avec Gitpod
 
